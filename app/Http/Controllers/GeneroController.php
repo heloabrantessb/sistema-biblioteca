@@ -7,59 +7,68 @@ use Illuminate\Http\Request;
 
 class GeneroController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $generos = Genero::all();
+
+        return view('generos.index')->with('generos', $generos);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $generos = Genero::all();
+
+        return view('generos.create', compact('generos'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'nome' => 'required|string'
+        ]);
+
+        Genero::create([
+            'nome' => $validated['nome']
+        ]);
+
+        return redirect()->route('generos.index')->with('sucesso', 'Genero criado com sucesso!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Genero $genero)
+    public function show(String $id)
     {
-        //
+        $genero = Genero::findOrFail($id);
+
+        return view('generos.index')->with('genero', $genero);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Genero $genero)
+    public function edit(String $id)
     {
-        //
+        $genero = Genero::findOrFail($id);
+
+        return view('generos.edit')->with('genero', $genero);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Genero $genero)
+    public function update(Request $request, String $id)
     {
-        //
+        $genero = Genero::findOrFail($id);
+
+        $validated = $request->validate([
+            'nome' => 'required|string'
+        ]);
+
+        $genero->nome = $validated['nome'];
+
+        $genero->save();
+
+        return redirect('generos.index')->with('sucesso', 'Gênero editado com sucesso');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Genero $genero)
+    public function destroy(String $id)
     {
-        //
+        $genero = Genero::findOrFail($id);
+
+        $genero->delete();
+
+        return redirect('generos.index')->with('sucesso', 'Gênero excluído com sucesso!');
     }
 }

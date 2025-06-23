@@ -7,58 +7,52 @@ use Illuminate\Http\Request;
 
 class LivroController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $livros = Livro::all();
+
+        return view('livros.index')->with('livros', $livros);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $livros = Livro::all();
+
+        return view('livros.create', compact('livros'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'titulo' => 'required|string',
+            'autor' => 'required|string',
+            'ano_de_lancamento' => 'required|date',
+            'categoria_id' => 'required|exists:categorias,id',
+            'genero_id' => 'required|exists:genero,id',
+            'status' => ''
+        ]);
+
+        Livro::create($validated);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Livro $livro)
+    public function show(String $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Livro $livro)
+    public function edit(String $id)
+    {
+        $livro = Livro::findOrFail();
+
+        return view('livros.edit', compact('livros'));
+    }
+
+    public function update(Request $request, String $id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Livro $livro)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Livro $livro)
+    public function destroy(String $id)
     {
         //
     }

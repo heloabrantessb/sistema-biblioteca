@@ -21,7 +21,7 @@ return new class extends Migration
             $table->enum('status', ['ativo', 'finalizado', 'atrasado'])->default('ativo');
             $table->softDeletes();
             $table->timestamps();
-        });
+        }); 
     }
 
     /**
