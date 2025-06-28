@@ -1,19 +1,34 @@
 <?php
 
+use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GeneroController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
+Route::middleware(['auth', 'verified', 'role:admin'])->group(function() {
+    Route::resource('generos', GeneroController::class);
+    Route::resource('categorias', CategoriaController::class);
+});
 
+Route::middleware(['auth', 'verified', 'role:bibliotecario'])->group(function() {
+    Route::resource('livros', GeneroController::class);
+});
+
+Route::middleware(['auth', 'verified', 'role:admin, bibliotecario'])->group(function(){
+    Route::resource('users', UserController::class);
+});
+
+//Rotas para dashboard
 Route::middleware(['auth', 'verified'])
     ->get('/dashboard', [DashboardController::class, 'index'])
     ->name('dashboard');
-
+    
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::middleware('role:admin')->get('/admin/dashboard', [UserController::class, 'adminDashboard'])
         ->name('admin.dashboard');
