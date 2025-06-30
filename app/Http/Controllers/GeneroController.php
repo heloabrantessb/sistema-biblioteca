@@ -60,7 +60,7 @@ class GeneroController extends Controller
 
         $genero->save();
 
-        return redirect('generos.index')->with('sucesso', 'Gênero editado com sucesso');
+        return redirect()->route('generos.index')->with('sucesso', 'Gênero editado com sucesso');
     }
 
     public function destroy(String $id)
