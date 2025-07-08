@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
             'sobrenome' => 'Administrador',
             'cpf' => '00000000000',
             'email' => 'admin@email.com',
-            'role' => 'admin',
+            'role_id' => 1,
             'password' => 'admin123'
         ]);
 
@@ -26,7 +26,7 @@ class UserSeeder extends Seeder
             'sobrenome' => 'da Silva',
             'cpf' => '02325685974',
             'email' => 'jose@email.com',
-            'role' => 'aluno',
+            'role_id' => 4,
             'password' => 'jose123'
         ]);
 
@@ -35,7 +35,7 @@ class UserSeeder extends Seeder
             'sobrenome' => 'Silva',
             'cpf' => '12589677463',
             'email' => 'felipe@email.com',
-            'role' => 'bibliotecario',
+            'role_id' => 2,
             'password' => 'felipe123'
         ]);
 
@@ -44,7 +44,7 @@ class UserSeeder extends Seeder
             'sobrenome' => 'Santos',
             'cpf' => '85423685444',
             'email' => 'rafael@email.com',
-            'role' => 'professor',
+            'role_id' => 3,
             'password' => 'rafael123'
         ]);
     }
