@@ -12,7 +12,7 @@ class Comprovante extends Model
     protected $table = 'comprovantes';
     protected $fillable = [
         'emprestimo_id',
-        'arquivo_ur',
+        'arquivo_url',
     ];
 
     public function emprestimo(){

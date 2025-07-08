@@ -30,8 +30,8 @@ class AuthenticatedSessionController extends Controller
 
         $user = Auth::user();
 
-        switch ($user->role) {
-            case 'admin':
+        switch ($user->role->funcao) {
+            case 'administrador':
                 return redirect()->route('admin.dashboard');
             case 'bibliotecario':
                 return redirect()->route('bibliotecario.dashboard');

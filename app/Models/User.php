@@ -22,7 +22,7 @@ class User extends Authenticatable
         'sobrenome',
         'cpf',
         'email',
-        'role',
+        'role_id',
         'password',
     ];
 
@@ -52,5 +52,9 @@ class User extends Authenticatable
     public function emprestimos()
     {
         return $this->hasMany(Emprestimo::class);
+    }
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
     }
 }

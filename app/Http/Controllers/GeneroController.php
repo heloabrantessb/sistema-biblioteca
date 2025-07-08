@@ -69,6 +69,6 @@ class GeneroController extends Controller
 
         $genero->delete();
 
-        return redirect('generos.index')->with('sucesso', 'Gênero excluído com sucesso!');
+        return redirect()->route('generos.index')->with('sucesso', 'Gênero excluído com sucesso!');
     }
 }

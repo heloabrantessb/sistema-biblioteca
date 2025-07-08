@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -38,11 +38,10 @@ class UserController extends Controller
 
     public function create()
     {
-        $user = Auth::user();
-        $role = $user->role;
+        $role = Auth::user()->role->funcao;
 
         $rolesPermissao = match ($role) {
-            'admin' => ['admin', 'bibliotecario', 'professor', 'aluno'],
+            'administrador' => ['administrador', 'bibliotecario', 'professor', 'aluno'],
             'bibliotecario' => ['professor', 'aluno']
         };
 
@@ -57,17 +56,19 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'sobrenome' => 'required|string|max:255',
             'cpf' => 'required|string',
-            'email' => 'required|string|unique:users,email',
-            'role' => 'required|in:admin,bibliotecario,professor,aluno',
+            'email' => 'required|string',
+            'role' => 'required|exists:roles,id',
             'password' => 'required|string|min:8|confirmed'
         ]);
+
+        $role = Role::where('funcao', $validated['role'])->first();
 
         $user = User::create([
             'name' => $validated['name'],
             'sobrenome' => $validated['sobrenome'],
             'cpf' => $validated['cpf'],
             'email' => $validated['email'],
-            'role' => $validated['role'],
+            'role_id' => $validated['role'],
             'password' => $validated['password']
         ]);
 
@@ -87,16 +88,48 @@ class UserController extends Controller
 
     public function edit(string $id)
     {
-        //
+        $role = Auth::user()->role->funcao;
+
+        $rolesPermissao = match ($role) {
+            'administrador' => ['administrador', 'bibliotecario', 'professor', 'aluno'],
+            'bibliotecario' => ['professor', 'aluno']
+        };
+
+        $user = User::findOrFail($id);
+
+        return view('users.edit', compact('user', 'rolesPermissao'));
     }
 
     public function update(Request $request, string $id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'sobrenome' => 'required|string|max:255',
+            'cpf' => 'required|string',
+            'email' => 'required|string',
+            'role' => 'required|exists:roles,id',
+            // 'password' => 'required|string|min:8|confirmed'
+        ]);
+
+        $user->name = $validated['name'];
+        $user->sobrenome = $validated['sobrenome'];
+        $user->cpf = $validated['cpf'];
+        $user->email = $validated['email'];
+        $user->role_id = $validated['role'];
+
+        $user->save();
+
+        return redirect()->route('users.index')->with('sucesso', 'Usuário editada com sucesso!');
     }
 
     public function destroy(string $id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        $user->delete();
+
+        return redirect()->route('users.index')->with('sucesso', 'Usuário excluída com sucesso!');
     }
 }

@@ -14,9 +14,11 @@ class RoleCheck
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, string ...$roles): Response
-    {
-        if (!Auth::check() || !in_array(Auth::user()->role, $roles)) {
+    public function handle(Request $request, Closure $next, ...$funcoes)
+    {   
+        $usuario = Auth::user();
+
+        if (!$usuario || !$usuario->role || !in_array($usuario->role->funcao, $funcoes)) {
             abort(403, 'Acesso não autorizado.');
         }
 

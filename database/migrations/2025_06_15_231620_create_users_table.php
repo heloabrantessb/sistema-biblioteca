@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('sobrenome');
             $table->string('cpf');
             $table->string('email')->unique();
-            $table->enum('role', ['admin', 'bibliotecario', 'aluno', 'professor']);
+            $table->foreignId('role_id')->constrained('roles')->onDelete('cascade');
             $table->string('password');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();

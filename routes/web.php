@@ -5,22 +5,20 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GeneroController;
+use App\Http\Controllers\LivroController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware(['auth', 'verified', 'role:admin'])->group(function() {
+Route::middleware(['auth', 'verified', 'funcao:administrador'])->group(function() {
     Route::resource('generos', GeneroController::class);
     Route::resource('categorias', CategoriaController::class);
 });
 
-Route::middleware(['auth', 'verified', 'role:bibliotecario'])->group(function() {
-    Route::resource('livros', GeneroController::class);
-});
-
-Route::middleware(['auth', 'verified', 'role:admin, bibliotecario'])->group(function(){
+Route::middleware(['auth', 'verified', 'funcao:bibliotecario'])->group(function() {
+    Route::resource('livros', LivroController::class);
     Route::resource('users', UserController::class);
 });
 
@@ -30,13 +28,13 @@ Route::middleware(['auth', 'verified'])
     ->name('dashboard');
     
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::middleware('role:admin')->get('/admin/dashboard', [UserController::class, 'adminDashboard'])
+    Route::middleware('funcao:administrador')->get('/admin/dashboard', [UserController::class, 'adminDashboard'])
         ->name('admin.dashboard');
-    Route::middleware('role:bibliotecario')->get('/bibliotecario/dashboard', [UserController::class, 'bibliotecarioDashboard'])
+    Route::middleware('funcao:bibliotecario')->get('/bibliotecario/dashboard', [UserController::class, 'bibliotecarioDashboard'])
         ->name('bibliotecario.dashboard');
-    Route::middleware('role:professor')->get('/professor/dashboard', [UserController::class, 'professorDashboard'])
+    Route::middleware('funcao:professor')->get('/professor/dashboard', [UserController::class, 'professorDashboard'])
         ->name('professor.dashboard');
-    Route::middleware('role:aluno')->get('/aluno/dashboard', [UserController::class, 'alunoDashboard'])
+    Route::middleware('funcao:aluno')->get('/aluno/dashboard', [UserController::class, 'alunoDashboard'])
         ->name('aluno.dashboard');
 });
 
