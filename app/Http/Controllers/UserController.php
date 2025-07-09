@@ -19,19 +19,34 @@ class UserController extends Controller
         return view('dashboards.bibliotecario');
     }
 
-    public function alunoDashboard()
+    public function usuarioDashboard()
     {
-        return view('dashboards.aluno');
+        $emprestimos = Auth::user()->emprestimos()
+            ->with('livro')
+            ->latest()
+            ->get();
+            
+        return view('dashboards.usuario', compact('emprestimos'));
     }
 
-    public function professorDashboard()
+    public function index(Request $request)
     {
-        return view('dashboards.professor');
-    }
+        $users = collect();
 
-    public function index()
-    {
-        $users = User::all();
+        if ($request->filled('cpf')) {
+            $validated = $request->validate([
+                'cpf' => 'required|string'
+            ]);
+
+            $users = User::where('cpf', $validated['cpf'])->get();
+
+            if ($users->isEmpty()) {
+                return view('users.index', [
+                    'users' => $users,
+                    'mensagem' => 'Nenhum usuário encontrado com esse CPF.'
+                ]);
+            }
+        }
 
         return view('users.index', compact('users'));
     }
@@ -41,8 +56,8 @@ class UserController extends Controller
         $role = Auth::user()->role->funcao;
 
         $rolesPermissao = match ($role) {
-            'administrador' => ['administrador', 'bibliotecario', 'professor', 'aluno'],
-            'bibliotecario' => ['professor', 'aluno']
+            'administrador' => ['administrador', 'bibliotecario', 'usuario'],
+            'bibliotecario' => ['usuario']
         };
 
         return view('users.create', compact('rolesPermissao'));
@@ -91,8 +106,8 @@ class UserController extends Controller
         $role = Auth::user()->role->funcao;
 
         $rolesPermissao = match ($role) {
-            'administrador' => ['administrador', 'bibliotecario', 'professor', 'aluno'],
-            'bibliotecario' => ['professor', 'aluno']
+            'administrador' => ['administrador', 'bibliotecario', 'usuario'],
+            'bibliotecario' => ['usuario']
         };
 
         $user = User::findOrFail($id);

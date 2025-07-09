@@ -26,7 +26,7 @@ class UserSeeder extends Seeder
             'sobrenome' => 'da Silva',
             'cpf' => '02325685974',
             'email' => 'jose@email.com',
-            'role_id' => 4,
+            'role_id' => 3,
             'password' => 'jose123'
         ]);
 
