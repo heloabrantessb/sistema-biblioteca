@@ -21,11 +21,13 @@ class UserController extends Controller
 
     public function usuarioDashboard()
     {
-        $emprestimos = Auth::user()->emprestimos()
+        $usuario = Auth::user();
+
+        $emprestimos = $usuario->emprestimos()
             ->with('livro')
             ->latest()
             ->get();
-            
+
         return view('dashboards.usuario', compact('emprestimos'));
     }
 

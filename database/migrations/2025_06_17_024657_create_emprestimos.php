@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('livro_id')->constrained('livros')->onDelete('cascade');
             $table->date('data_inicio');
             $table->date('data_fim_previsao');
-            $table->date('data_fim_real');
+            $table->date('data_fim_real')->nullable();
             $table->enum('status', ['ativo', 'finalizado', 'atrasado'])->default('ativo');
             $table->softDeletes();
             $table->timestamps();

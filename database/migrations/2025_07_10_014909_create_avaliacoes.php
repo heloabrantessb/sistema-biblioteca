@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('comprovantes', function (Blueprint $table) {
+        Schema::create('avaliacoes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('emprestimo_id')->constrained('emprestimos')->onDelete('cascade');
-            $table->string('arquivo_url')->nullable();
-            $table->timestamp('data_geracao')->useCurrent();
-            $table->softDeletes();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('livro_id')->constrained()->onDelete('cascade');
+            $table->foreignId('emprestimo_id')->constrained()->onDelete('cascade');
+            $table->integer('nota');
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('comprovantes');
+        Schema::dropIfExists('avaliacoes');
     }
 };

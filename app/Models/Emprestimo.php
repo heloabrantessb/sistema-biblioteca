@@ -19,15 +19,22 @@ class Emprestimo extends Model
         'status',
     ];
 
-     public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function livro(){
+    public function livro()
+    {
         return $this->belongsTo(Livro::class);
     }
 
-    public function comprovante(){
+    public function comprovante()
+    {
         return $this->hasOne(Comprovante::class);
+    }
+    public function avaliacao()
+    {
+        return $this->hasOne(Avaliacao::class);
     }
 }

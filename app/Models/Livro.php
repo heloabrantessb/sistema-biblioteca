@@ -30,4 +30,9 @@ class Livro extends Model
     public function emprestimos(){
         return $this->hasMany(Emprestimo::class);
     }
+    public function avaliacoes()
+{
+    return $this->hasMany(Avaliacao::class);
+}
+
 }

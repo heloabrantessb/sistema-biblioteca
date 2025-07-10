@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Emprestimo;
+
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -57,4 +58,8 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class);
     }
-}   
+    public function avaliacoes()
+    {
+        return $this->hasMany(Avaliacao::class);
+    }
+}
