@@ -5,6 +5,12 @@
         <h1 class='text-3xl font-semibold text-gray-800 mb-2'>Novo Gênero Literário</h1>
         <p class="mb-6 text-gray-500">Adicione um novo gênero literário</p>
 
+          @if (session('erro'))
+                <div class="bg-red-100 border text-red-700 p-2 rounded">
+                    {{ session('erro') }}
+                </div>
+            @endif
+
         <form action="{{ route('generos.store') }}" method="POST"
             class="bg-white shadow-md rounded-xl p-10 w-full max-w-lg space-y-6">
             @csrf
@@ -16,14 +22,14 @@
             </div>
 
             <div class="flex justify-between">
-            <a href="{{ route('generos.index') }}"
-                class="bg-red-500 hover:bg-red-600 text-white font-semibold px-6 py-2 rounded-md shadow">
-                Cancelar
-            </a>
-            <button type="submit"
-                class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded-md shadow">Salvar</button>
-    </div>
+                <a href="{{ route('generos.index') }}"
+                    class="bg-red-500 hover:bg-red-600 text-white font-semibold px-6 py-2 rounded-md shadow">
+                    Cancelar
+                </a>
+                <button type="submit"
+                    class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded-md shadow">Salvar</button>
+            </div>
 
-    </form>
+        </form>
     </div>
 </x-app-layout>

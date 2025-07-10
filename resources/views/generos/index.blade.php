@@ -1,29 +1,41 @@
 <!-- If you do not have a consistent goal in life, you can not live it in a consistent way. - Marcus Aurelius -->
 <x-app-layout>
     <div class="flex min-h-screen bg-gray-100">
-        <aside class="w-64 bg-blue-800 text-white p-6">
+        <aside class="w-64 bg-blue-900 text-white p-6">
             <h2 class="text-xl font-semibold mb-6">Gêneros Literários</h2>
             <nav>
                 <ul>
                     <li class="mb-4">
-                        <a href="{{ route('generos.create') }}" class="block py-2 px-4 bg-blue-600 rounded">Adicionar
+                        <a href="{{ route('generos.create') }}" class="block py-2 px-4 bg-sky-600 hover:bg-sky-700 rounded">Adicionar
                             Gênero Literário</a>
                     </li>
-                       <li class="mb-4">
-                        <a href="{{ route('dashboard') }}" class="block py-2 px-4 bg-gray-500 rounded">Voltar ao inicio</a>
+                    <li class="mb-4">
+                        <a href="{{ route('dashboard') }}" class="block py-2 px-4 bg-gray-500 rounded">Voltar ao
+                            inicio</a>
                     </li>
                 </ul>
             </nav>
         </aside>
         <main class="overflow-x-auto rounded-xl border shadow-sm bg-card w-full p-12 pb-6 min-h-screen">
 
+            @if (session('sucesso'))
+                <div class="bg-green-100 border text-green-700 p-2 rounded">
+                    {{ session('sucesso') }}
+                </div>
+            @endif
+
+            @if (session('erro'))
+                <div class="bg-red-100 border text-red-700 p-2 rounded">
+                    {{ session('erro') }}
+                </div>
+            @endif
 
             <div class=" items-center justify-between m-auto pb-4 w-1/3 align-center">
                 <h1 class="text-2xl font-semibold text-gray-800">Lista de Gêneros Literários</h1>
             </div>
 
 
-            <table class="w-auto text-left table-auto rounded shadow m-auto">
+            <table class="w-auto text-left table-auto rounded-3xl shadow-xl m-auto">
                 <thead class="bg-blue-800 text-white uppercase w-auto">
                     <tr>
                         <th class="px-6 py-3">Id</th>
@@ -33,7 +45,7 @@
                 </thead>
                 <tbody>
                     @foreach ($generos as $genero)
-                        <tr class="odd:bg-white even:bg-gray-100">
+                        <tr class="odd:bg-white even:bg-gray-50 hover:bg-sky-100">
                             <td class="px-6 py-4 font-medium">{{ $genero->id }}</td>
                             <td class="px-6 py-4">{{ $genero->nome }}</td>
                             <td class="px-6 py-4 text-center flex justify-center w-auto gap-8">
